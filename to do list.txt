@@ -1,0 +1,56 @@
+import os
+
+def display_tasks(tasks):
+    print("To-Do List:")
+    for index, task in enumerate(tasks, start=1):
+        print(f"{index}. {task.strip()}")
+
+def add_task(tasks, new_task):
+    tasks.append(new_task)
+
+def remove_task(tasks, task_index):
+    if 1 <= task_index <= len(tasks):
+        removed_task = tasks.pop(task_index - 1)
+        print(f"Removed task: {removed_task.strip()}")
+    else:
+        print("Invalid task index.")
+
+def save_tasks(tasks, filename="tasks.txt"):
+    with open(filename, "w") as file:
+        file.writelines(tasks)
+
+def load_tasks(filename="tasks.txt"):
+    tasks = []
+    if os.path.exists(filename):
+        with open(filename, "r") as file:
+            tasks = file.readlines()
+    return tasks
+
+def main():
+    tasks = load_tasks()
+
+    while True:
+        display_tasks(tasks)
+
+        print("\nOptions:")
+        print("1. Add task")
+        print("2. Remove task")
+        print("3. Save and exit")
+
+        choice = input("Enter your choice (1/2/3): ")
+
+        if choice == "1":
+            new_task = input("Enter new task: ")
+            add_task(tasks, new_task)
+        elif choice == "2":
+            task_index = int(input("Enter task number to remove: "))
+            remove_task(tasks, task_index)
+        elif choice == "3":
+            save_tasks(tasks)
+            print("Tasks saved. Exiting.")
+            break
+        else:
+            print("Invalid choice. Please enter 1, 2, or 3.")
+
+if __name__ == "__main__":
+    main()
